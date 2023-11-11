@@ -8,7 +8,7 @@
 #include <limits.h>
 
 int _printf(const char *format, ...);
-
+void flush_output(char customBuffer[], int *buff_index);
 int main(void);
 
 #endif
