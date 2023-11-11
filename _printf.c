@@ -3,6 +3,8 @@
 #include <stdarg.h>
 #include <string.h>
 
+void print_buffer(char buffer[], int *buff_ind);
+
 /**
  * _putchar - Writes a character to stdout.
  * @c: The character to be written.
@@ -71,4 +73,15 @@ count++;
 break;
 va_end(args);
 return (count);
+}
+/**
+ * print_buffer - Prints the contents of the buffer if it exists
+ * @buffer: Array of characters
+ * @buff_ind: Pointer to an index representing the length of the buffer
+ */
+void print_buffer(char buffer[], int *buff_ind);
+{
+if (*buff_ind > 0)
+write(1, buffer, *buff_ind);
+*buff_ind = 0;
 }
