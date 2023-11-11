@@ -17,6 +17,7 @@ char buffer[], int flags, int width, int precision, int size
 );
 int _printf(const char *format, ...);
 void flush_output(char customBuffer[], int *buff_index);
+
 int main(void);
 
 #endif
