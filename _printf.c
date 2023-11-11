@@ -1,87 +1,61 @@
 #include "main.h"
-#include <stdio.h>
-#include <stdarg.h>
-#include <string.h>
 
-void print_buffer(char buffer[], int *buff_ind);
+void flush_output(char customBuffer[], int *buff_index);
 
 /**
- * _putchar - Writes a character to stdout.
- * @c: The character to be written.
+ * print - Printf function
+ * @format: Format string.
+ * Return: Number of printed characters.
  */
-void _putchar(char c)
+int print(const char *format, ...)
 {
-putchar(c);
-}
-
-/**
- * _puts - Writes a string to stdout.
- * @s: The string to be written.
- */
-void _puts(char *s)
-{
-for (int i = 0; s[i] != '\0'; i++)
-{
-_putchar(s[i]);
-}
-}
-
-/**
- * _printf - Outputs a formatted string.
- * @format: Character string to print - may contain directives.
- *
- * Return: The number of characters printed.
- */
-int _printf(const char *format, ...)
-{
+int i, printed = 0, printed_chars = 0;
+int flags, width, precision, size, buff_index = 0;
 va_list args;
-int count = 0;
+char customBuffer[BUFF_SIZE];
 
 if (format == NULL)
 return (-1);
+
 va_start(args, format);
-for (int i = 0; format[i] != '\0'; i++)
+
+for (i = 0; format && format[i] != '\0'; i++)
 {
 if (format[i] != '%')
 {
-_putchar(format[i]);
-count++;
+customBuffer[buff_index++] = format[i];
+if (buff_index == BUFF_SIZE)
+flush_output(customBuffer, &buff_index);
+printed_chars++;
 }
 else
 {
-i++;
-switch (format[i])
-{
-case 'c':
-{
-char c = (char)va_arg(args, int);
-_putchar(c);
-count++;
-break;
+flush_output(customBuffer, &buff_index);
+flags = get_flags(format, &i);
+width = get_width(format, &i, args);
+precision = get_precision(format, &i, args);
+size = get_size(format, &i);
+++i;
+printed = handle_print(format, &i, args, customBuffer,
+flags, width, precision, size);
+if (printed == -1)
+return (-1);
+printed_chars += printed;
 }
-case 's':
-{
-char *s = va_arg(args, char *);
-_puts(s);
-count += strlen(s);
-break;
 }
-case '%':
-{
-_putchar('%');
-count++;
-break;
+flush_output(customBuffer, &buff_index);
+
 va_end(args);
-return (count);
+
+return (printed_chars);
 }
+
 /**
- * print_buffer - Prints the contents of the buffer if it exists
- * @buffer: Array of characters
- * @buff_ind: Pointer to an index representing the length of the buffer
+ * flush_output - Prints the contents of the buffer if it exists
+ * @customBuffer: Array of characters
+ * @buff_index: Index for the next character, represents the buffer length.
  */
-void print_buffer(char buffer[], int *buff_ind);
+void flush_output(char customBuffer[], int *buff_index)
 {
-if (*buff_ind > 0)
-write(1, buffer, *buff_ind);
-*buff_ind = 0;
-}
+if (*buff_index > 0)
+write(1, customBuffer,
