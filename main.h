@@ -20,4 +20,4 @@ void flush_output(char customBuffer[], int *buff_index);
 
 int main(void);
 
-#endif
+#endif /* MAIN_H */
