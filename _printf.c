@@ -1,66 +1,92 @@
 #include "main.h"
 
-void flush_output(char customBuffer[], int *buff_index);
+int print_integer(int n);
 
 /**
  * _printf - Modified Printf function
  * @format: Format string.
- * @ap: List of arguments.
+ * @...: List of arguments.
  * Return: Number of printed characters.
  */
 
 int print(const char *format, ...)
 {
-int i, printed = 0, printed_chars = 0;
-int flags, width, precision, size, buff_index = 0;
-va_list args;
-char customBuffer[BUFF_SIZE];
+    va_list args;
+    va_start(args, format);
+    int count = 0;
 
-if (format == NULL)
-return (-1);
+    for (; *format != '\0'; format++) {
+        if (*format != '%') {
+            _putchar(*format);
+            count++;
+        } else {
+            format++;
+            switch (*format) {
+                case 'c': {
+                    char c = (char) va_arg(args, int);
+                    _putchar(c);
+                    count++;
+                    break;
+                }
+                case 's': {
+                    char *s = va_arg(args, char *);
+                    for (; *s != '\0'; s++) {
+                        _putchar(*s);
+                        count++;
+                    }
+                    break;
+                }
+                case '%': {
+                    _putchar('%');
+                    count++;
+                    break;
+                }
+                case 'd':
+                case 'i': {
+                    int i = va_arg(args, int);
+                    if (i < 0) {
+                        _putchar('-');
+                        i = -i;
+                        count++;
+                    }
+                    count += print_integer(i);
+                    break;
+                }
+                default: {
+                    _putchar('%');
+                    _putchar(*format);
+                    count += 2;
+                    break;
+                }
+            }
+        }
+    }
 
-va_start(args, format);
-
-for (i = 0; format && format[i] != '\0'; i++)
-{
-if (format[i] != '%')
-{
-customBuffer[buff_index++] = format[i];
-if (buff_index == BUFF_SIZE)
-flush_output(customBuffer, &buff_index);
-printed_chars++;
-}
-else
-{
-flush_output(customBuffer, &buff_index);
-flags = get_flags(format, &i);
-width = get_width(format, &i, args);
-precision = get_precision(format, &i, args);
-size = get_size(format, &i);
-++i;
-printed = handle_print(format, &i, args, customBuffer,
-flags, width, precision, size);
-if (printed == -1)
-return (-1);
-printed_chars += printed;
-}
-}
-flush_output(customBuffer, &buff_index);
-
-va_end(args);
-
-return (printed_chars);
+    va_end(args);
+    return count;
 }
 
 /**
- * flush_output - Prints the contents of the buffer if it exists
- * @customBuffer: Array of characters
- * @buff_index: Index for the next character, represents the buffer length.
+ * print_integer - Prints an integer to standard output
+ * @n: The integer to be printed
+ * Return: The number of digits printed (excluding a possible '-' sign)
  */
-void flush_output(char customBuffer[], int *buff_index)
-{
-if (*buff_index > 0)
-write(1, customBuffer, *buff_index);
-*buff_index = 0;
-}
+int print_integer(int n) {
+    int count = 0;
+    if (n == 0) {
+        _putchar('0');
+        count++;
+    } else {
+        int digits[10];
+        int index = 0;
+        while (n) {
+            digits[index++] = n % 10;
+            n /= 10;
+        }
+        for (int i = index - 1; i >= 0; i--) {
+            _putchar('0' + digits[i]);
+            count++;
+        }
+    }
+    return count;
 }
