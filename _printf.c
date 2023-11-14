@@ -3,10 +3,12 @@
 void flush_output(char customBuffer[], int *buff_index);
 
 /**
- * print - Printf function
+ * _printf - Modified Printf function
  * @format: Format string.
+ * @ap: List of arguments.
  * Return: Number of printed characters.
  */
+
 int print(const char *format, ...)
 {
 int i, printed = 0, printed_chars = 0;
