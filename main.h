@@ -8,7 +8,7 @@
 #include <limits.h>
 
 int _putchar(char c);
-
+int print_integer(int n);
 int _printf(const char *format, ...);
 
 int main(void);
