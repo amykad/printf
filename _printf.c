@@ -9,7 +9,7 @@ int print_integer(int n);
  * Return: Printed chars.
  */
 
-int print(const char *format, ...)
+int printf(const char *format, ...)
 {
 va_list args;
 va_start(args, format);
