@@ -3,13 +3,13 @@
 int print_integer(int n);
 
 /**
- * _printf - Printf function
+ * _printf - Printf function.
  * @format: format.
  * @...: list of argument
  * Return: Printed chars.
  */
 
-int print(const char *format, ...)
+int_ printf(const char *format, ...)
 {
 va_list args;
 va_start(args, format);
