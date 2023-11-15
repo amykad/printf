@@ -9,11 +9,8 @@ int print_integer(int n);
  * Return: Printed chars.
  */
 
-<<<<<<< HEAD
-int_ printf(const char *format, ...)
-=======
 int _printf(const char *format, ...)
->>>>>>> 834a5562934f3825bcf1bbcc64fae6e57a7b5de0
+
 {
 int count = 0;
 va_list args;
