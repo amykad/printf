@@ -9,7 +9,7 @@ int print_integer(int n);
  * Return: Printed chars.
  */
 
-int printf(const char *format, ...)
+int _printf(const char *format, ...)
 {
 int count = 0;
 va_list args;
