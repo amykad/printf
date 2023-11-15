@@ -11,9 +11,9 @@ int print_integer(int n);
 
 int printf(const char *format, ...)
 {
+int count = 0;
 va_list args;
 va_start(args, format);
-int count = 0;
 
 for (; *format != '\0'; format++)
 {
@@ -28,7 +28,7 @@ format++;
 switch (*format)
 {
 case 'c':
-}
+{
 char c = (char) va_arg(args, int);
 
 _putchar(c);
@@ -77,6 +77,8 @@ break;
 }
 va_end(args);
 return (count);
+}
+
 /**
  * print_integer - Prints an integer to standard output
  * @n: The integer to be printed
@@ -85,6 +87,7 @@ return (count);
 int print_integer(int n)
 {
 int count = 0;
+int i;
 if (n == 0)
 {
 _putchar('0');
@@ -99,7 +102,7 @@ while (n)
 digits[index++] = n % 10;
 n /= 10;
 }
-for (int i = index - 1; i >= 0; i--)
+for (i = index - 1; i >= 0; i--)
 {
 _putchar('0' + digits[i]);
 count++;
